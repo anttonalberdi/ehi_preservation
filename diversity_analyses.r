@@ -88,7 +88,7 @@ distance <- as.dist(pairdis_q0$L1_CqN)
 
 #q1
 pairdis_q1 <- pair_dis(counts, qvalue=1)
-distance <- as.dist(pairdis_q0$L1_CqN)
+distance <- as.dist(pairdis_q1$L1_CqN)
 
 #q1phy (overnight)
 pairdis_q1phy <- pair_dis(counts, qvalue=1, tree=tree)
@@ -100,5 +100,5 @@ zymo_samples<-metadata[metadata$Protocol == "Z","Sample"]
 distance_drex <- dist_subset(distance, drex_samples)
 distance_zymo <- dist_subset(distance, zymo_samples)
 
-adonis(distance_drex ~ Buffer*Time*Species, metadata[metadata$Protocol == "D",], permutations = 999 )
-adonis(distance_zymo ~ Buffer*Time*Species, metadata[metadata$Protocol == "Z",], permutations = 999 )
+adonis(distance_drex ~ Species*Time*Buffer, permutations = 999, data=metadata[metadata$Protocol == "D",], strata = metadata[metadata$Protocol == "D",]$Species)
+adonis(distance_zymo ~ Species*Time*Buffer, permutations = 999, data=metadata[metadata$Protocol == "Z",], strata = metadata[metadata$Protocol == "Z",]$Species)
